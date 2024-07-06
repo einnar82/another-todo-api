@@ -13,8 +13,7 @@ class DeleteTaskTest extends TestCase
 
     public function testDeleteSucceeds(): void
     {
-        list(, $task) = $this->createTestData();
-
+        $task = Task::factory()->create();
         $response = $this->deleteJson(\sprintf('%s/%s', self::URI, $task->getKey()));
 
         $response->assertNoContent();

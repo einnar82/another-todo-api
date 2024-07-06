@@ -2,11 +2,13 @@
 
 namespace Tests\Feature\API\TasksController;
 
+use App\Models\Task;
+
 class GetTaskTest extends AbstractTaskResourceTest
 {
     public function testShowTaskSucceeds(): void
     {
-        list($label, $task) = $this->createTestData();
+        $task = Task::factory()->create();
         $response = $this->getJson(\sprintf('%s/%s', self::URI, $task->getKey()));
 
         $response->assertOk();
@@ -14,12 +16,7 @@ class GetTaskTest extends AbstractTaskResourceTest
             'id' => $task->getKey(),
             'title' => $task->title,
             'description' => $task->description,
-            'labels' => [
-                [
-                    'id' => $label->getKey(),
-                    'name' => $label->name,
-                ]
-            ]
+            'labels' => $task->labels
         ]);
     }
 }

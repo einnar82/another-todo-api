@@ -11,7 +11,6 @@ class ListTaskTest extends TestCase
     public function testListSucceeds(): void
     {
         Task::factory()
-            ->has(Label::factory()->count(3))
             ->count(10)
             ->create();
 
@@ -25,12 +24,7 @@ class ListTaskTest extends TestCase
                     'id',
                     'title',
                     'description',
-                    'labels' => [
-                        '*' => [
-                            'id',
-                            'name',
-                        ]
-                    ]
+                    'labels',
                 ]
             ]
         ]);

@@ -2,8 +2,6 @@
 
 namespace Tests\Feature\API\TasksController;
 
-use App\Models\Label;
-use App\Models\Task;
 use Tests\TestCase;
 
 class AbstractTaskResourceTest extends TestCase

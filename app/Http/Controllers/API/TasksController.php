@@ -17,7 +17,7 @@ final class TasksController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return TaskResource::collection(Task::query()->with('labels')->simplePaginate());
+        return TaskResource::collection(Task::query()->simplePaginate());
     }
 
     /**
@@ -26,11 +26,9 @@ final class TasksController extends Controller
     public function store(TaskRequest $request): TaskResource
     {
         /** @var Task $task */
-        $task = Task::query()->create(Arr::except($request->validated(), ['label_ids']));
+        $task = Task::query()->create($request->validated());
 
-        $task->labels()->attach($request->input('label_ids'));
-
-        return new TaskResource($task->load('labels'));
+        return new TaskResource($task);
     }
 
     /**
@@ -38,7 +36,7 @@ final class TasksController extends Controller
      */
     public function show(Task $task): TaskResource
     {
-        return new TaskResource($task->load('labels'));
+        return new TaskResource($task);
     }
 
     /**
@@ -46,16 +44,13 @@ final class TasksController extends Controller
      */
     public function update(TaskRequest $request, Task $task): TaskResource
     {
-        $task->update(Arr::except($request->validated(), ['label_ids']));
+        $task->update($request->validated());
 
-        $task->labels()->sync($request->input('label_ids'));
-
-        return new TaskResource($task->load('labels'));
+        return new TaskResource($task);
     }
 
     public function destroy(Task $task): Response
     {
-        $task->labels()->detach();
         $task->delete();
 
         return response()->noContent();

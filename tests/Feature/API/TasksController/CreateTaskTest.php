@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\API\TasksController;
 
-use App\Models\Label;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Interfaces\ValidationTestInterface;
 use Tests\TestCase;
@@ -13,15 +12,14 @@ class CreateTaskTest extends TestCase implements ValidationTestInterface
 
     public function testCreateSucceeds(): void
     {
-        /** @var Label $label */
-        $label = Label::factory()->create();
         $title = $this->faker->word();
         $description = $this->faker->sentence();
+        $label = $this->faker->word();
 
         $response = $this->postJson(self::URI, [
             'title' => $title,
             'description' => $description,
-            'label_ids' => [$label->getKey()],
+            'labels' => [$label],
         ]);
 
         $response->assertCreated();
@@ -38,7 +36,7 @@ class CreateTaskTest extends TestCase implements ValidationTestInterface
         $response->assertJsonValidationErrors([
             'title',
             'description',
-            'label_ids',
+            'labels',
         ]);
     }
 }

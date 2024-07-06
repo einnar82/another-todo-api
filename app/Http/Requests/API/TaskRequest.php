@@ -24,7 +24,7 @@ class TaskRequest extends FormRequest
         return [
             'title' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'label_ids' => ['required', 'array', 'exists:labels,id'],
+            'labels' => ['required', 'array'],
         ];
     }
 }

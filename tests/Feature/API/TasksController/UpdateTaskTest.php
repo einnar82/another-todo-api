@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\API\TasksController;
 
+use App\Models\Task;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Interfaces\ValidationTestInterface;
 
@@ -13,12 +14,13 @@ class UpdateTaskTest extends AbstractTaskResourceTest implements ValidationTestI
     {
         $title = $this->faker->word();
         $description = $this->faker->sentence();
-        list($label, $task) = $this->createTestData();
+        $task = Task::factory()->create();
+        $label = $this->faker->word();
 
         $response = $this->putJson(\sprintf('%s/%s', self::URI, $task->getKey()), [
             'title' => $title,
             'description' => $description,
-            'label_ids' => [$label->getKey()],
+            'labels' => [$label],
         ]);
 
         $response->assertOk();
@@ -29,14 +31,14 @@ class UpdateTaskTest extends AbstractTaskResourceTest implements ValidationTestI
 
     public function testValidationFailed(): void
     {
-        list(, $task) = $this->createTestData();
+        $task = Task::factory()->create();
         $response = $this->putJson(\sprintf('%s/%s', self::URI, $task->getKey()));
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors([
             'title',
             'description',
-            'label_ids',
+            'labels',
         ]);
     }
 }

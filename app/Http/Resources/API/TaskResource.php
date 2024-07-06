@@ -14,8 +14,6 @@ class TaskResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return array_merge(parent::toArray($request), [
-            'labels' => LabelResource::collection($this->whenLoaded('labels'))
-        ]);
+        return parent::toArray($request);
     }
 }

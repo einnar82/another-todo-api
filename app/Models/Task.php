@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Task extends Model
 {
@@ -12,8 +11,7 @@ class Task extends Model
 
     protected $guarded = ['id'];
 
-    public function labels(): BelongsToMany
-    {
-        return $this->belongsToMany(Label::class, 'task_label');
-    }
+    protected $casts = [
+        'labels' => 'array'
+    ];
 }
