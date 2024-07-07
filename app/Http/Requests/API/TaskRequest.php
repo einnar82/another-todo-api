@@ -25,6 +25,9 @@ class TaskRequest extends FormRequest
             'title' => ['required', 'string'],
             'description' => ['required', 'string'],
             'labels' => ['required', 'array'],
+            'labels.*' => ['string', 'max:255'],
+            'color' => ['string', 'max:255'],
+            'completed_at' => ['nullable', 'date_format:Y-m-d H:i:s'],
         ];
     }
 }
