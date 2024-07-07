@@ -85,7 +85,7 @@ final class TasksController extends Controller
         $flattenedData = array_merge(...$decodedData);
 
         // Get unique values
-        $uniqueData = array_unique($flattenedData);
+        $uniqueData = \array_values(array_unique($flattenedData));
 
         return \response()->json($uniqueData);
     }
