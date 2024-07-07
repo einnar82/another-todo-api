@@ -7,10 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\API\TaskRequest;
 use App\Http\Resources\API\TaskResource;
 use App\Models\Task;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Pipeline\Pipeline;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 final class TasksController extends Controller
 {
@@ -63,5 +64,29 @@ final class TasksController extends Controller
         $task->delete();
 
         return response()->noContent();
+    }
+
+    public function getUniqueLabels(): JsonResponse
+    {
+        $data = DB::table('tasks')
+            ->select('labels')
+            ->distinct()
+            ->get()
+            ->pluck('labels')
+            ->flatten()
+            ->unique()
+            ->toArray();
+
+        $decodedData = array_map(function($item) {
+            return json_decode($item, true);
+        }, $data);
+
+        // Optionally flatten the array if you have nested arrays
+        $flattenedData = array_merge(...$decodedData);
+
+        // Get unique values
+        $uniqueData = array_unique($flattenedData);
+
+        return \response()->json($uniqueData);
     }
 }
