@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Filters\FilterByLabel;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\TaskRequest;
 use App\Http\Resources\API\TaskResource;
 use App\Models\Task;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Arr;
 
 final class TasksController extends Controller
@@ -17,7 +19,14 @@ final class TasksController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        return TaskResource::collection(Task::query()->simplePaginate());
+        $tasks = app(Pipeline::class)
+            ->send(Task::query())
+            ->through([
+                FilterByLabel::class
+            ])
+            ->thenReturn();
+
+        return TaskResource::collection($tasks->simplePaginate());
     }
 
     /**
