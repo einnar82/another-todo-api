@@ -20,6 +20,7 @@ class CreateTaskTest extends TestCase implements ValidationTestInterface
             'title' => $title,
             'description' => $description,
             'labels' => [$label],
+            'color' => $this->faker->hexColor(),
         ]);
 
         $response->assertCreated();

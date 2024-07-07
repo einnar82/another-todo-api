@@ -23,6 +23,7 @@ class TaskFactory extends Factory
             'title' => $this->faker->word,
             'description' => $this->faker->sentence,
             'labels' => $this->faker->words(),
+            'color' => $this->faker->hexColor,
         ];
     }
 }
