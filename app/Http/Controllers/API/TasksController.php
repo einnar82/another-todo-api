@@ -18,8 +18,9 @@ final class TasksController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): AnonymousResourceCollection
+    public function index(): JsonResponse
     {
+        /** @var \Illuminate\Database\Eloquent\Builder $tasks */
         $tasks = app(Pipeline::class)
             ->send(Task::query())
             ->through([
@@ -27,7 +28,13 @@ final class TasksController extends Controller
             ])
             ->thenReturn();
 
-        return TaskResource::collection($tasks->simplePaginate());
+        $query = $tasks->simplePaginate(9);
+
+        return response()->json([
+            'data' => $query->items(),
+            'hasMorePages' => $query->hasMorePages(),
+            'currentPage' => $query->currentPage()
+        ]);
     }
 
     /**

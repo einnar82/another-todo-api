@@ -17,7 +17,7 @@ class ListTaskTest extends TestCase
         $response = $this->getJson(self::URI);
 
         $response->assertOk();
-        $response->assertJsonCount(10, 'data');
+        $response->assertJsonCount(9, 'data');
         $response->assertJsonStructure([
             'data' => [
                 '*' => [
