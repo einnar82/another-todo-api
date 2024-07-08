@@ -26,4 +26,4 @@
 
 **Screenshots:**
 
-![./screenshots/ScreenRecording2024-07-08at8.03.39AM-ezgif.com-crop.gif](/Users/rannieollit/Desktop/Tutorials/PHP/todo-app/screenshots/sample.gif)
+![./screenshots/sample.gif](./screenshots/sample.gif)
