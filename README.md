@@ -14,6 +14,7 @@
 - Copy the `.env.example` file and create a new `.env` file.
 - In your terminal type `./vendor/bin/sail up -d`
 - The project is running at `localhost:80`.
+- Run the tests `./vendor/bin/sail test`
 
 **Git commands used for this project.**
 
